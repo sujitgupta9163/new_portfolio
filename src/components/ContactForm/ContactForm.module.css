@@ -1,0 +1,333 @@
+.contactSection {
+  background-color: var(--bg-primary);
+  padding: var(--section-padding);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background visual glows */
+.glowOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glowGold {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+  bottom: -150px;
+  right: -150px;
+  filter: blur(100px);
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Header standard */
+.sectionHeader {
+  margin-bottom: 60px;
+  text-align: left;
+}
+
+.sectionSubtitle {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.sectionTitle {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.titleDivider {
+  width: 50px;
+  height: 1px;
+  background: var(--accent-gold-gradient);
+  margin-top: 16px;
+}
+
+/* Grid layout */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 64px;
+  align-items: flex-start;
+}
+
+@media (max-width: 992px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+}
+
+/* Left Column: Direct info */
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.infoTitle {
+  font-size: 1.8rem;
+  color: var(--text-primary);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.infoText {
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  max-width: 500px;
+}
+
+.infoList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 12px;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.infoIconWrapper {
+  width: 42px;
+  height: 42px;
+  border-radius: 6px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.infoLabel {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.infoValue {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+a.infoValue:hover {
+  color: var(--accent-gold);
+}
+
+/* Right Column: Contact Card */
+.formContainer {
+  width: 100%;
+}
+
+.formGlassCard {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  padding: 40px;
+  box-shadow: var(--glass-shadow);
+}
+
+@media (max-width: 480px) {
+  .formGlassCard {
+    padding: 24px;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.formRow {
+  position: relative;
+  width: 100%;
+}
+
+/* Custom Floating Label Inputs */
+.inputGroup {
+  position: relative;
+  width: 100%;
+}
+
+.input, .textarea {
+  width: 100%;
+  background: rgba(5, 5, 5, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-family: var(--font-sans);
+  transition: var(--transition-snappy);
+}
+
+.input {
+  padding: 18px 16px 8px 16px;
+  height: 54px;
+}
+
+.textarea {
+  padding: 24px 16px 10px 16px;
+  resize: vertical;
+}
+
+.input:focus, .textarea:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+  background: rgba(5, 5, 5, 0.8);
+  box-shadow: 0 0 10px var(--accent-gold-glow);
+}
+
+/* Labels */
+.label {
+  position: absolute;
+  left: 16px;
+  top: 17px;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 400;
+  transition: var(--transition-snappy);
+  pointer-events: none;
+  transform: translateY(0);
+}
+
+.textarea ~ .label {
+  top: 18px;
+}
+
+/* Floating behavior when active or focused */
+.input:focus ~ .label,
+.input.hasValue ~ .label {
+  transform: translateY(-8px);
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+  letter-spacing: 0.05em;
+}
+
+.textarea:focus ~ .label,
+.textarea.hasValue ~ .label {
+  transform: translateY(-10px);
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+  letter-spacing: 0.05em;
+}
+
+/* Errors */
+.inputError {
+  border-color: rgba(239, 68, 68, 0.5) !important;
+}
+
+.inputError:focus {
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.15) !important;
+}
+
+.errorText {
+  font-size: 0.65rem;
+  color: #ef4444;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+/* Loading spinner */
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: #050505;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Success Card Screen */
+.successScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+  padding: 10px 0;
+  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.successIconWrapper {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.04);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px var(--accent-gold-glow);
+  animation: bounceSuccess 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes bounceSuccess {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.successIcon {
+  animation: rotateSuccess 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes rotateSuccess {
+  0% { transform: rotate(-45deg); }
+  100% { transform: rotate(0); }
+}
+
+.successTitle {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.successText {
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 400px;
+  margin-bottom: 8px;
+}

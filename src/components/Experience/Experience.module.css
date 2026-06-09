@@ -1,0 +1,222 @@
+.experienceSection {
+  background-color: var(--bg-secondary);
+  padding: var(--section-padding);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+  position: relative;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Header standard */
+.sectionHeader {
+  margin-bottom: 60px;
+  text-align: left;
+}
+
+.sectionSubtitle {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.sectionTitle {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.titleDivider {
+  width: 50px;
+  height: 1px;
+  background: var(--accent-gold-gradient);
+  margin-top: 16px;
+}
+
+/* Timeline Layout */
+.timeline {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+/* Axis Line */
+.timelineLine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 20px;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(212, 175, 55, 0.4) 15%,
+    rgba(212, 175, 55, 0.4) 85%,
+    transparent 100%
+  );
+}
+
+.timelineItem {
+  position: relative;
+  padding-left: 60px;
+  margin-bottom: 60px;
+}
+
+.timelineItem:last-child {
+  margin-bottom: 0;
+}
+
+/* Timeline Indicator Node */
+.timelineNode {
+  position: absolute;
+  left: 9px;
+  top: 6px;
+  z-index: 2;
+}
+
+.nodeCircle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--accent-gold);
+  background: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px var(--accent-gold-glow);
+  animation: pulseGoldTimeline 3s infinite;
+}
+
+@keyframes pulseGoldTimeline {
+  0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(212, 175, 55, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+}
+
+.nodeIcon {
+  color: var(--accent-gold);
+}
+
+/* Detail Card */
+.timelineContent {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  padding: 32px;
+  transition: var(--transition-card);
+  position: relative;
+}
+
+.timelineContent:hover {
+  border-color: var(--glass-border-hover);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5), 0 0 10px var(--accent-gold-glow);
+  transform: translateX(6px);
+}
+
+.timelineContent::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: -7px;
+  width: 12px;
+  height: 12px;
+  background: var(--bg-secondary);
+  border-left: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+  transform: rotate(45deg);
+  transition: var(--transition-smooth);
+}
+
+.timelineContent:hover::before {
+  border-color: var(--glass-border-hover);
+}
+
+.cardHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.period {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.roleTitle {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.companyName {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.awardIcon {
+  color: var(--accent-gold);
+}
+
+/* Achievement Bulletpoints */
+.achievements {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.achievementItem {
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  position: relative;
+  padding-left: 16px;
+}
+
+.achievementItem::before {
+  content: '•';
+  color: var(--accent-gold);
+  font-size: 1.25rem;
+  position: absolute;
+  left: 0;
+  top: -3px;
+}
+
+/* Skill Tags */
+.skillsTagWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  padding-top: 20px;
+}
+
+.skillTag {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 4px 10px;
+  border-radius: 3px;
+}
