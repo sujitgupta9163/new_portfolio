@@ -116,9 +116,30 @@
 .loaderBarFill {
   height: 100%;
   width: 0%;
+  animation: loadProgress 3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+.goldProgress {
   background: var(--accent-gold-gradient);
   box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
-  animation: loadProgress 3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+.greenProgress {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #047857 100%);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+}
+
+.blueProgress {
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #1d4ed8 100%);
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+}
+
+.greenTheme span {
+  color: #10b981 !important;
+}
+
+.blueTheme span {
+  color: #3b82f6 !important;
 }
 
 @keyframes loadProgress {
