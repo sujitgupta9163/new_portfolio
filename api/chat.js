@@ -34,24 +34,26 @@ export default async function handler(req, res) {
 
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
-    const systemPrompt = `You are a helpful, elite, and polite virtual assistant for Sujit Kumar, an expert Full-Stack Software Developer and Digital Craftsman.
+    const systemPrompt = `You are a helpful, elite, and polite virtual assistant for Sujit Kumar Gupta, an expert Frontend Developer specializing in React.js and React Native.
 
 Your absolute instruction is:
-1. ONLY answer questions directly related to Sujit Kumar (his skills, experience, projects, contact info, availability, and web design philosophy).
-2. If a user asks any question that is unrelated to Sujit Kumar or his professional profile (e.g., general knowledge, math problems, code writing unrelated to his portfolio, recipe advice, weather), you must politely decline to answer, stating: "I apologize, but I am only programmed to assist with questions related to Sujit Kumar's portfolio and professional background."
+1. ONLY answer questions directly related to Sujit Kumar Gupta (his skills, experience, projects, contact info, availability, and development philosophy).
+2. If a user asks any question that is unrelated to Sujit Kumar Gupta or his professional profile (e.g., general knowledge, math problems, code writing unrelated to his portfolio, recipe advice, weather), you must politely decline to answer, stating: "I apologize, but I am only programmed to assist with questions related to Sujit Kumar Gupta's portfolio, skills, and professional background."
 3. Keep your answers concise, clear, professional, and friendly.
 
-Here is key information about Sujit Kumar:
-- Profile: Full-Stack Developer & Digital Craftsman with 6+ years of experience.
-- Core Skills: React.js, TypeScript, Next.js, CSS Modules, Glassmorphism, Node.js, Express, RESTful APIs, Web Performance Tuning.
+Here is key information about Sujit Kumar Gupta:
+- Profile: Frontend Developer with 1+ years of experience building high-performance web and cross-platform mobile apps.
+- Core Skills: React.js, React Native, JavaScript (ES6+), HTML5, CSS3, Context API, Redux Toolkit, Tailwind CSS, Bootstrap, Ant Design, Node.js, Express, MongoDB, MySQL, Git, GitHub.
 - Key Projects:
-  1. Aurelia Luxury Estates: A high-end property discovery portal showcasing architectural masterpieces.
-  2. Chronos Smart Watch App: A sleek, premium mobile timepiece utility featuring neumorphic champagne widgets.
-  3. Elixir Brand Identity: Sophisticated branding & visual direction for an organic luxury distillery.
-  4. Vesper Wealth Management: Advanced decentralized asset dashboard with glowing analytical charts and dark design.
-- Philosophy: Bridging the gap between pure aesthetics and robust software architectures.
-- Availability: Open for select commissions, freelance roles, and full-time engineering collaborations.
-- Email: valerius@example.com (or via the contact form on this website).`;
+  1. VerifyOne App: One-Time Password (OTP) authentication security app with dual-theme layouts.
+  2. Sentr Counseling (BrainStorm): Sleek client management, analytics, and counselling support system.
+  3. Green World Academy: Premium responsive website for Green World School with advanced features.
+- Experience:
+  - Frontend Developer at Bhanguz Technology, Mohali, Punjab.
+  - Software Developer Intern at Tech Whizer IT Software Services.
+- Availability: Open for React.js, React Native, and Frontend Engineering opportunities.
+- Email: sujitgupta9163@gmail.com
+- Phone: +91 9163165672`;
 
     const response = await fetch(url, {
       method: "POST",
@@ -82,7 +84,7 @@ Here is key information about Sujit Kumar:
 
     const data = await response.json();
     const botReply = data.candidates?.[0]?.content?.parts?.[0]?.text || 
-      "I apologize, but I am unable to process that request right now. Please email me directly at valerius@example.com.";
+      "I apologize, but I am unable to process that request right now. Please email me directly at sujitgupta9163@gmail.com.";
 
     return res.status(200).json({ reply: botReply.trim() });
 
@@ -117,24 +119,24 @@ function getMockChatResponse(userText) {
     text.includes("hey");
 
   if (!isAboutSujit) {
-    return "I apologize, but I am only programmed to assist with questions related to Sujit Kumar's portfolio and professional background.";
+    return "I apologize, but I am only programmed to assist with questions related to Sujit Kumar's portfolio, skills, and professional background.";
   }
 
   if (text.includes("project") || text.includes("work")) {
-    return "Sujit has built 40+ premium projects. Highlighted projects include: Aurelia Luxury Estates, Chronos Smart Watch App, Elixir Brand Identity, and Vesper Wealth Management.";
+    return "Sujit has built outstanding projects like VerifyOne (OTP Authentication System), BrainStorm/Sentr (Counselling Management System), and Green World Academy Portal. Ask me details about any of them!";
   }
   if (text.includes("skill") || text.includes("react") || text.includes("typescript") || text.includes("node")) {
-    return "Sujit's core competencies include: React.js & Hooks, TypeScript, Next.js, CSS Modules, Glassmorphic Styling, Node.js, Express, RESTful APIs, and Web Performance Tuning.";
+    return "Sujit specializes in React.js, React Native, Redux Toolkit, Context API, Tailwind CSS, HTML5/CSS3, Node.js, Express, MongoDB, and Git/GitHub.";
   }
   if (text.includes("experience")) {
-    return "Sujit has over 6 years of professional experience building scalable web applications and crafting pixel-perfect frontend experiences.";
+    return "Sujit has 1+ years of experience as a Frontend Developer at Bhanguz Technology, Mohali and previously as a developer intern at Tech Whizer IT Software Services.";
   }
   if (text.includes("contact") || text.includes("email") || text.includes("hire")) {
-    return "You can contact Sujit by filling out the form at the bottom of the page, or by emailing him directly at valerius@example.com.";
+    return "You can reach Sujit via email at sujitgupta9163@gmail.com or call him at +91 9163165672.";
   }
   if (text.includes("hello") || text.includes("hi") || text.includes("hey")) {
-    return "Hi! I am Sujit's virtual assistant. How can I help you today? You can ask about my skills, projects, experience, or how to contact me.";
+    return "Hello! I am Sujit's virtual assistant. How can I help you today? You can ask about his skills, projects, experience, or contact information.";
   }
 
-  return "Sujit Kumar is a Full-Stack Software Developer specializing in frontend craftsmanship and premium dark layouts. How can I assist you with his profile?";
+  return "Sujit Kumar Gupta is a Frontend Developer specializing in React.js and React Native. Feel free to ask about his skills, experience, or projects!";
 }
