@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import Hero from './components/Hero/Hero';
 import About from './components/About/About';
@@ -11,6 +11,20 @@ import WelcomePortal from './components/WelcomePortal/WelcomePortal';
 
 export default function App() {
   const [showPortal, setShowPortal] = useState(true);
+
+  // Trigger new random welcome modal on browser tab switch (focus gain)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        setShowPortal(true);
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
 
   return (
     <>
