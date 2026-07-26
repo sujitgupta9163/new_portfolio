@@ -56,7 +56,7 @@ const mockProjectsDb: Project[] = [
     category: 'web',
     description: 'An immersive, responsive educational platform featuring interactive virtual campus tours and a voice-enabled AI assistant.',
     longDescription: 'Green World Academy is a premium K-12 school portal featuring responsive layout designs, interactive class standard configurations, sports arena presentations, and a custom integration of an intelligent voice-enabled chatbot assistant powered by Gemini API.',
-    image: '/school.png',
+    image: '/green_world_school.jpg',
     tags: ['React.js', 'Tailwind CSS', 'Vercel API', 'Gemini AI', 'Speech Recognition'],
     client: 'Green World Academy',
     date: '2026',
