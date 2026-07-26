@@ -13,62 +13,82 @@ interface MaterialConfig {
 }
 
 // Procedural Canvas Texture Generator to match the floral-mesh sphere in the reference image
-function createFloralTexture(baseColor: string): THREE.CanvasTexture {
+// Procedural Canvas Texture Generator to create a beautiful digital dot-matrix Earth globe
+function createEarthTexture(baseColor: string): THREE.CanvasTexture {
   const canvas = document.createElement('canvas');
   canvas.width = 1024;
-  canvas.height = 1024;
+  canvas.height = 512;
   const ctx = canvas.getContext('2d');
   
   if (ctx) {
-    // Fill base background (Teal / Cyan)
+    // 1. Fill base background (Oceans) using the customizable baseColor
     ctx.fillStyle = baseColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw symmetric floral/constellation grid
-    const cols = 24;
-    const rows = 12;
-    const cellWidth = canvas.width / cols;
-    const cellHeight = canvas.height / rows;
+    // 2. Draw Longitude & Latitude grid lines for high-tech aesthetic
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+    ctx.lineWidth = 1;
+    // Latitudes (Horizontal)
+    for (let y = 0; y < canvas.height; y += 32) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(canvas.width, y);
+      ctx.stroke();
+    }
+    // Longitudes (Vertical)
+    for (let x = 0; x < canvas.width; x += 32) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, canvas.height);
+      ctx.stroke();
+    }
 
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        // Offset alternate rows for diamond-pattern distribution
-        const x = c * cellWidth + (r % 2 === 0 ? 0 : cellWidth / 2);
-        const y = r * cellHeight + cellHeight / 2;
+    // 3. Render Continents using an offscreen canvas to compute dot-matrix overlay
+    const offscreen = document.createElement('canvas');
+    offscreen.width = canvas.width;
+    offscreen.height = canvas.height;
+    const oCtx = offscreen.getContext('2d');
+    
+    if (oCtx) {
+      oCtx.fillStyle = '#ffffff';
 
-        // Draw white floral cross motif
-        ctx.save();
-        ctx.translate(x, y);
-        
-        // Draw 4 leaf petals forming a glowing cross/star
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
-        for (let i = 0; i < 4; i++) {
-          ctx.rotate(Math.PI / 2);
-          ctx.beginPath();
-          // Draw elegant diamond petal
-          ctx.moveTo(0, 0);
-          ctx.quadraticCurveTo(6, -10, 0, -22);
-          ctx.quadraticCurveTo(-6, -10, 0, 0);
-          ctx.fill();
+      const drawContinent = (points: [number, number][]) => {
+        oCtx.beginPath();
+        oCtx.moveTo(points[0][0], points[0][1]);
+        for (let i = 1; i < points.length; i++) {
+          oCtx.lineTo(points[i][0], points[i][1]);
         }
+        oCtx.closePath();
+        oCtx.fill();
+      };
 
-        // Draw central glowing soft core
-        const glow = ctx.createRadialGradient(0, 0, 1, 0, 0, 6);
-        glow.addColorStop(0, '#ffffff');
-        glow.addColorStop(1, 'rgba(255, 255, 255, 0)');
-        ctx.fillStyle = glow;
-        ctx.beginPath();
-        ctx.arc(0, 0, 6, 0, Math.PI * 2);
-        ctx.fill();
+      // Simplified coordinates for world map projection (1024 x 512 scale)
+      // Eurasia & Africa
+      drawContinent([[400, 50], [550, 40], [700, 60], [800, 120], [850, 200], [820, 300], [750, 320], [600, 300], [550, 360], [450, 420], [400, 320], [330, 250], [300, 150]]);
+      // North America
+      drawContinent([[50, 80], [180, 80], [250, 130], [220, 220], [150, 250], [100, 180]]);
+      // South America
+      drawContinent([[180, 250], [250, 280], [300, 350], [220, 480], [170, 380]]);
+      // Australia
+      drawContinent([[780, 320], [870, 310], [900, 370], [820, 400]]);
+      // Antarctica
+      drawContinent([[0, 480], [1024, 480], [1024, 512], [0, 512]]);
 
-        ctx.restore();
+      // Read pixel data to draw glowing gold dot matrix representing continents
+      const imgData = oCtx.getImageData(0, 0, offscreen.width, offscreen.height);
+      const data = imgData.data;
+      const step = 8; // spacing between dots
 
-        // Draw mini-gold nodes between the flowers for luxury contrast
-        if (c < cols - 1) {
-          ctx.beginPath();
-          ctx.arc(x + cellWidth / 2, y + cellHeight / 2, 2.5, 0, Math.PI * 2);
-          ctx.fillStyle = '#D4AF37'; // Gold
-          ctx.fill();
+      ctx.fillStyle = '#D4AF37'; // Champagne Gold for continents
+      for (let y = 0; y < offscreen.height; y += step) {
+        for (let x = 0; x < offscreen.width; x += step) {
+          const index = (y * offscreen.width + x) * 4;
+          if (data[index] > 128) {
+            // Draw a neat digital pixel dot
+            ctx.beginPath();
+            ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
         }
       }
     }
@@ -81,14 +101,13 @@ function createFloralTexture(baseColor: string): THREE.CanvasTexture {
   return texture;
 }
 
-// 3D Interactive Sphere Model
+// 3D Interactive Sphere Model (Earth)
 function SphereModel({ config, texture }: { config: MaterialConfig; texture: THREE.CanvasTexture }) {
   const meshRef = useRef<THREE.Mesh>(null);
 
   useFrame((_state, delta) => {
     if (config.autoRotate && meshRef.current) {
       meshRef.current.rotation.y += delta * 0.15;
-      meshRef.current.rotation.x += delta * 0.05;
     }
   });
 
@@ -101,17 +120,17 @@ function SphereModel({ config, texture }: { config: MaterialConfig; texture: THR
         metalness={config.metalness}
         wireframe={config.wireframe}
         bumpMap={texture}
-        bumpScale={0.015} // Adds procedural depth relief to the petals
+        bumpScale={0.02}
       />
     </mesh>
   );
 }
 
 export default function ThreeViewer() {
-  const [baseColor, setBaseColor] = useState<string>('#009688'); // Dark Teal / Cyan
+  const [baseColor, setBaseColor] = useState<string>('#0b1424'); // Default Deep Space Blue
   const [config, setConfig] = useState<MaterialConfig>({
-    roughness: 0.15,
-    metalness: 0.25,
+    roughness: 0.2,
+    metalness: 0.35,
     autoRotate: true,
     wireframe: false,
   });
@@ -120,7 +139,7 @@ export default function ThreeViewer() {
 
   // Generate texture when baseColor changes
   useEffect(() => {
-    const tex = createFloralTexture(baseColor);
+    const tex = createEarthTexture(baseColor);
     setTexture(tex);
     return () => {
       tex.dispose();
