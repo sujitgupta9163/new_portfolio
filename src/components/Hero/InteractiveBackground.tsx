@@ -1,160 +1,140 @@
-import { useEffect, useRef } from 'react';
+import { useRef, useMemo, useEffect, useState } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
+import * as THREE from 'three';
 import styles from './Hero.module.css';
 
-export default function InteractiveBackground() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+function SpiralGalaxy() {
+  const pointsRef = useRef<THREE.Points>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    if (!canvasRef.current) return;
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 992);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
-    let animationFrameId: number;
-    let width = (canvas.width = canvas.offsetWidth);
-    let height = (canvas.height = canvas.offsetHeight);
+  const count = isMobile ? 2000 : 4000;
+  const radius = 4.2;
+  const arms = 3;
 
-    const particles: Particle[] = [];
-    const maxParticles = window.innerWidth < 768 ? 40 : 80;
-    const connectionDistance = 120;
-    const mouse = { x: -1000, y: -1000, radius: 150 };
+  // Generate spiral galaxy particles mathematically
+  const [positions, colors] = useMemo(() => {
+    const pos = new Float32Array(count * 3);
+    const cols = new Float32Array(count * 3);
 
-    class Particle {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      radius: number;
+    const colorCore = new THREE.Color('#ffdf7a'); // Champagne Gold Core
+    const colorOuter = new THREE.Color('#004d40'); // Deep Space Teal Outer
 
-      constructor() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        // Faint slow movements
-        this.vx = (Math.random() - 0.5) * 0.4;
-        this.vy = (Math.random() - 0.5) * 0.4;
-        this.radius = Math.random() * 2 + 1;
-      }
+    for (let i = 0; i < count; i++) {
+      // Distance from center (exponential distribution for dense core)
+      const r = Math.pow(Math.random(), 2.2) * radius;
 
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
+      // Spiral angle twist
+      const spinAngle = r * 1.35;
+      const armAngle = ((i % arms) * 2 * Math.PI) / arms;
+      const angle = armAngle + spinAngle;
 
-        // Bounce back from boundaries
-        if (this.x < 0 || this.x > width) this.vx = -this.vx;
-        if (this.y < 0 || this.y > height) this.vy = -this.vy;
+      // 3D dispersion factor (denser near center, dispersing out)
+      const spread = 0.25 * (radius - r) * 0.4;
+      const randomX = Math.pow(Math.random(), 3) * (Math.random() < 0.5 ? 1 : -1) * spread;
+      const randomY = Math.pow(Math.random(), 3) * (Math.random() < 0.5 ? 1 : -1) * spread;
+      const randomZ = Math.pow(Math.random(), 3) * (Math.random() < 0.5 ? 1 : -1) * spread;
 
-        // Mouse interaction push
-        const dx = mouse.x - this.x;
-        const dy = mouse.y - this.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < mouse.radius) {
-          const force = (mouse.radius - dist) / mouse.radius;
-          const angle = Math.atan2(dy, dx);
-          this.x -= Math.cos(angle) * force * 1.2;
-          this.y -= Math.sin(angle) * force * 1.2;
-        }
-      }
+      pos[i * 3] = Math.cos(angle) * r + randomX;
+      pos[i * 3 + 1] = randomY;
+      pos[i * 3 + 2] = Math.sin(angle) * r + randomZ;
 
-      draw(context: CanvasRenderingContext2D) {
-        context.beginPath();
-        context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        context.fillStyle = 'rgba(212, 175, 55, 0.4)'; // soft gold dot
-        context.fill();
-      }
+      // Color interpolation from gold core to space teal
+      const mixedColor = colorCore.clone().lerp(colorOuter, r / radius);
+      cols[i * 3] = mixedColor.r;
+      cols[i * 3 + 1] = mixedColor.g;
+      cols[i * 3 + 2] = mixedColor.b;
     }
 
-    // Initialize particles
-    for (let i = 0; i < maxParticles; i++) {
-      particles.push(new Particle());
+    return [pos, cols];
+  }, [count]);
+
+  useFrame((state) => {
+    if (pointsRef.current) {
+      // Rotation speed matching cinematic cosmic drift
+      pointsRef.current.rotation.y = state.clock.getElapsedTime() * 0.06;
+      // Gentle sinusoidal tilt wave
+      pointsRef.current.rotation.z = Math.sin(state.clock.getElapsedTime() * 0.25) * 0.08;
     }
+  });
 
-    const animate = () => {
-      ctx.clearRect(0, 0, width, height);
+  // Position: right side on desktop, center on mobile
+  const position: [number, number, number] = isMobile ? [0, -0.4, -0.5] : [1.3, 0, 0];
 
-      // Update and draw particles
-      particles.forEach((p) => {
-        p.update();
-        p.draw(ctx);
-      });
+  return (
+    <points ref={pointsRef} position={position}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          args={[positions, 3]}
+        />
+        <bufferAttribute
+          attach="attributes-color"
+          args={[colors, 3]}
+        />
+      </bufferGeometry>
+      <pointsMaterial
+        size={isMobile ? 0.038 : 0.048}
+        vertexColors
+        transparent
+        opacity={0.8}
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
+        sizeAttenuation={true}
+      />
+    </points>
+  );
+}
 
-      // Draw connection lines
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const p1 = particles[i];
-          const p2 = particles[j];
+export default function InteractiveBackground() {
+  const isVisibleRef = useRef(true);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
-          const dx = p1.x - p2.x;
-          const dy = p1.y - p2.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
 
-          if (dist < connectionDistance) {
-            // Faint golden lines
-            const alpha = (1 - dist / connectionDistance) * 0.12;
-            ctx.strokeStyle = `rgba(212, 175, 55, ${alpha})`;
-            ctx.lineWidth = 0.8;
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      // Draw mouse connections
-      if (mouse.x > -1000) {
-        particles.forEach((p) => {
-          const dx = mouse.x - p.x;
-          const dy = mouse.y - p.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < mouse.radius) {
-            const alpha = (1 - dist / mouse.radius) * 0.15;
-            ctx.strokeStyle = `rgba(212, 175, 55, ${alpha})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(mouse.x, mouse.y);
-            ctx.lineTo(p.x, p.y);
-            ctx.stroke();
-          }
+    // Suspend cycle on scroll out
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisibleRef.current = entry.isIntersecting;
         });
-      }
-
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-    };
-
-    const handleMouseLeave = () => {
-      mouse.x = -1000;
-      mouse.y = -1000;
-    };
-
-    const handleResize = () => {
-      if (!canvasRef.current) return;
-      width = canvas.width = canvas.offsetWidth;
-      height = canvas.height = canvas.offsetHeight;
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseleave', handleMouseLeave);
-    window.addEventListener('resize', handleResize);
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(container);
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseleave', handleMouseLeave);
-      window.removeEventListener('resize', handleResize);
+      observer.disconnect();
     };
   }, []);
 
   return (
-    <div className={styles.canvasBackgroundContainer}>
-      <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
+    <div ref={containerRef} className={styles.canvasBackgroundContainer}>
+      <Canvas
+        camera={{ position: [0, 1.8, 3.8], fov: 60 }}
+        onCreated={({ gl }) => {
+          gl.setClearColor('#040404');
+        }}
+      >
+        <SpiralGalaxy />
+        <OrbitControls
+          enableZoom={false}
+          enablePan={false}
+          enableDamping
+          dampingFactor={0.05}
+        />
+      </Canvas>
     </div>
   );
 }
