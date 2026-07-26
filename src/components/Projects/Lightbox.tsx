@@ -54,9 +54,13 @@ export default function Lightbox({ project, onClose }: LightboxProps) {
           {/* Visual Showcase Block */}
           <div 
             className={styles.modalVisual} 
-            style={{ background: project.image }}
+            style={(!project.image.startsWith('http') && !project.image.startsWith('/') && !project.image.startsWith('.')) ? { background: project.image } : undefined}
           >
-            <span className={styles.modalWatermark}>{project.title.charAt(0)}</span>
+            {((project.image.startsWith('http') || project.image.startsWith('/') || project.image.startsWith('.'))) ? (
+              <img src={project.image} alt={project.title} className={styles.projectImage} />
+            ) : (
+              <span className={styles.modalWatermark}>{project.title.charAt(0)}</span>
+            )}
           </div>
 
           {/* Metadata & Details Block */}

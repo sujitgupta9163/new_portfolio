@@ -37,16 +37,16 @@ export default function Hero() {
         <div className={styles.content}>
           <div className={styles.taglineWrapper}>
             <Award className={styles.tagIcon} size={16} />
-            <span className={styles.tagline}>MERN Creative Software Architect</span>
+            <span className={styles.tagline}>Frontend Developer • React.js & React Native</span>
           </div>
 
           <h1 className={styles.title}>
-            Crafting Premium <br />
-            <span className="gold-text">Digital Masterpieces</span>
+            SUJIT KUMAR GUPTA <br />
+            <span className="gold-text">Frontend Developer</span>
           </h1>
 
           <p className={styles.subtitle}>
-            Hi, I'm Sujit Kumar. I am a frontend-focused MERN stack engineer specializing in bridging the gap between sophisticated aesthetics and high-performance system engineering.
+            Results-driven Frontend Developer with 1+ years of experience building high-performance web and cross-platform mobile applications using React.js and React Native. Delivering scalable, user-friendly interfaces with clean, maintainable code.
           </p>
 
           <div className={styles.actions}>
@@ -75,15 +75,15 @@ export default function Hero() {
               <div className={styles.specifications}>
                 <div className={styles.specRow}>
                   <span>ROLE:</span>
-                  <strong>PRINCIPAL DEVELOPER</strong>
+                  <strong>FRONTEND DEVELOPER</strong>
                 </div>
                 <div className={styles.specRow}>
                   <span>ORIGIN:</span>
-                  <strong>EST. 2020</strong>
+                  <strong>EST. 2022</strong>
                 </div>
                 <div className={styles.specRow}>
                   <span>LOCATION:</span>
-                  <strong>WORLDWIDE / REMOTE</strong>
+                  <strong>Mohali, Punjab, India</strong>
                 </div>
               </div>
             </div>

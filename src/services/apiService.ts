@@ -27,52 +27,40 @@ export interface ContactMessage {
  */
 const mockProjectsDb: Project[] = [
   {
-    id: 'aurelia',
-    title: 'Aurelia Luxury Estates',
+    id: 'verifyone',
+    title: 'VerifyOne — OTP Authentication System',
     category: 'web',
-    description: 'A high-end property discovery portal showcasing architectural masterpieces with real-time immersive previews.',
-    longDescription: 'Aurelia is a premier digital destination designed for high-net-worth individuals seeking ultra-luxurious real estate. The application incorporates a bespoke architectural modeling view, custom-curated editorial pages, fluid web interfaces, and an intelligent client inquiry flow. Built with React and TypeScript, it ensures sub-second load times for high-resolution images.',
-    image: 'linear-gradient(135deg, #141414 0%, #3a2e12 100%)', // Gold charcoal gradient
-    tags: ['React', 'TypeScript', 'CSS Modules', 'Intersection Observer'],
-    client: 'Aurelia Developments',
-    date: 'Dec 2025',
-    link: 'https://example.com/aurelia'
+    description: 'A secure OTP-based identity verification system with a multi-step authentication flow and responsive design.',
+    longDescription: 'VerifyOne is a secure OTP-based identity verification system designed to prevent unauthorized access. Built with React.js for the web portal and React Native for mobile integration, it features a multi-step authentication flow, Tailwind CSS for fluid responsive layouts, and protected route architectures for private areas.',
+    image: '/verify-one-first.png',
+    tags: ['React.js', 'React Native', 'Tailwind CSS', 'OTP Verification', 'Protected Routes'],
+    client: 'Bhanguz Technology',
+    date: 'June 2025',
+    link: 'http://verifyone.bhanguz.com'
   },
   {
-    id: 'chronos',
-    title: 'Chronos Smart Watch App',
-    category: 'mobile',
-    description: 'A sleek, premium mobile timepiece utility featuring fluid custom curves and neumorphic champagne widgets.',
-    longDescription: 'Chronos redefines chronological tracking on wearables. Emphasizing a minimalist luxury watch face with organic tactile dials, the application syncs schedules, measures acoustic focus blocks, and utilizes subtle haptic feedback. Fully optimized for energy efficiency, with elegant customized charts.',
-    image: 'linear-gradient(135deg, #0f0f0f 0%, #1e263c 100%)', // Charcoal sapphire gradient
-    tags: ['React Native', 'TypeScript', 'Redux', 'Neumorphic Styling'],
-    client: 'Chronos Horology',
-    date: 'Oct 2025',
-    link: 'https://example.com/chronos'
-  },
-  {
-    id: 'elixir',
-    title: 'Elixir Brand Identity',
-    category: 'design',
-    description: 'A sophisticated creative direction, typography, and brand system built for an organic luxury distillery.',
-    longDescription: 'Elixir represents a comprehensive branding exploration that includes visual direction, label design, gold-foil typography styling, and micro-site artwork. The project showcases how high-end typography (Cinzel & Garamond) and a curated minimal gold palette can create an instant feeling of heritage, craftsmanship, and luxury.',
-    image: 'linear-gradient(135deg, #0c0c0c 0%, #301616 100%)', // Charcoal burgundy gradient
-    tags: ['Brand Strategy', 'Typography', 'Figma', 'Visual Direction'],
-    client: 'Elixir Organic Distillery',
-    date: 'Aug 2025',
-    link: 'https://example.com/elixir'
-  },
-  {
-    id: 'vesper',
-    title: 'Vesper Wealth Management',
+    id: 'brainstorm',
+    title: 'BrainStorm (Sentr) — Counselling Management System',
     category: 'web',
-    description: 'An advanced decentralized asset dashboard combining glowing analytical charts with luxury dark design.',
-    longDescription: 'Vesper Wealth is an elegant dashboard tailored for modern digital asset holders. It connects secure cryptographic wallets, visualizes real-time performance indicators, tracks yield opportunities, and outputs custom PDF accounting statements. Crafted with custom glassmorphism and extreme focus on responsiveness and accessibility.',
-    image: 'linear-gradient(135deg, #101010 0%, #143525 100%)', // Charcoal emerald gradient
-    tags: ['React.js', 'Chart.js', 'Web3 API', 'Tailored CSS'],
-    client: 'Vesper Finance Group',
-    date: 'Jun 2025',
-    link: 'https://example.com/vesper'
+    description: 'A full-featured counselling dashboard with role-based access control and real-time session visualization.',
+    longDescription: 'BrainStorm (Sentr) is a full-featured Counselling Management System. It consists of an Admin Panel for managing users, counsellors, and session scheduling. Features role-based access control (RBAC), protected routes, real-time data visualization using Chart.js, and cross-platform mobile compatibility with React Native.',
+    image: '/brain-strom-first.png',
+    tags: ['React.js', 'React Native', 'Node.js', 'Express.js', 'Redux Toolkit', 'Chart.js'],
+    client: 'Cognisentr',
+    date: '2025',
+    link: 'https://www.cognisentr.com'
+  },
+  {
+    id: 'greenworld',
+    title: 'Green World Academy Portal',
+    category: 'web',
+    description: 'An immersive, responsive educational platform featuring interactive virtual campus tours and a voice-enabled AI assistant.',
+    longDescription: 'Green World Academy is a premium K-12 school portal featuring responsive layout designs, interactive class standard configurations, sports arena presentations, and a custom integration of an intelligent voice-enabled chatbot assistant powered by Gemini API.',
+    image: '/school.png',
+    tags: ['React.js', 'Tailwind CSS', 'Vercel API', 'Gemini AI', 'Speech Recognition'],
+    client: 'Green World Academy',
+    date: '2026',
+    link: 'https://school-portfolio-three.vercel.app'
   }
 ];
 

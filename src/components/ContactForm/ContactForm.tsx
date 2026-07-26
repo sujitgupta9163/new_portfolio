@@ -108,8 +108,8 @@ export default function ContactForm() {
                 </div>
                 <div>
                   <span className={styles.infoLabel}>DIRECT MAIL</span>
-                  <a href="mailto:valerius@example.com" className={styles.infoValue}>
-                    valerius@example.com
+                  <a href="mailto:sujitgupta9163@gmail.com" className={styles.infoValue}>
+                    sujitgupta9163@gmail.com
                   </a>
                 </div>
               </div>
@@ -119,8 +119,8 @@ export default function ContactForm() {
                   <MapPin size={16} className="gold-text" />
                 </div>
                 <div>
-                  <span className={styles.infoLabel}>LOCATION</span>
-                  <span className={styles.infoValue}>Worldwide / Remote</span>
+                  <span className={styles.infoLabel}>LOCATION & PHONE</span>
+                  <span className={styles.infoValue}>Mohali, Punjab, India / +91 9163165672</span>
                 </div>
               </div>
 

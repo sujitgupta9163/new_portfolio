@@ -14,39 +14,29 @@ export default function Experience() {
   const experiences: TimelineItem[] = [
     {
       id: 'exp1',
-      role: 'Lead Frontend Engineer',
-      company: 'Aura Technologies',
-      period: '2024 - PRESENT',
+      role: 'Frontend Developer',
+      company: 'Bhanguz Technology, Mohali',
+      period: 'JUNE 2025 - PRESENT',
       description: [
-        'Architected and implemented high-performance digital platforms with strict sub-second performance limits.',
-        'Mentored a team of 6 engineers on React design systems, modular CSS structures, and advanced TypeScript patterns.',
-        'Spearheaded custom interactive dashboards that increased client retention metrics by over 35%.'
+        'Architected and delivered production-ready React.js web applications, improving UI consistency across the platform.',
+        'Engineered 15+ reusable React Native components, reducing development time for new features by ~30%.',
+        'Integrated RESTful APIs with robust error handling and optimized state management using Redux Toolkit.',
+        'Enhanced application performance and responsiveness, contributing to faster load times and smoother UX.',
+        'Collaborated with backend team to define API contracts and ensure seamless frontend-backend integration.'
       ],
-      skills: ['React 18', 'TypeScript', 'Performance Optimization', 'System Design']
+      skills: ['React.js', 'React Native', 'Redux Toolkit', 'Tailwind CSS', 'REST API', 'JavaScript']
     },
     {
       id: 'exp2',
-      role: 'Senior React Developer',
-      company: 'Helix Software House',
-      period: '2022 - 2024',
+      role: 'Frontend Developer Intern',
+      company: 'Tech Whizer IT Software Services',
+      period: 'NOV 2022 - MAR 2023',
       description: [
-        'Engineered responsive web applications using Vite, React, and tailored modular styling.',
-        'Improved Core Web Vitals across major e-commerce properties, achieving average performance score improvements of 40%.',
-        'Coordinated closely with visual UI/UX directors to craft complex keyframe animations and glassmorphic layouts.'
+        'Developed modular, reusable React.js components used across multiple pages of the web application.',
+        'Implemented API integrations and managed component-level state using React hooks.',
+        'Contributed to UI improvements that enhanced usability and visual consistency of the product.'
       ],
-      skills: ['Vite', 'React Router', 'Aesthetic Animation', 'Figma Integration']
-    },
-    {
-      id: 'exp3',
-      role: 'UI Architect & Developer',
-      company: 'Studio Vesper',
-      period: '2020 - 2022',
-      description: [
-        'Created artistic micro-sites, promotional portals, and branding designs for high-end luxury labels.',
-        'Pioneered reusable vanilla CSS design libraries and responsive modules to speed up prototyping velocities by 50%.',
-        'Ensured full WCAG AAA accessibility compliance across public sector portfolios and digital assets.'
-      ],
-      skills: ['Vanilla CSS Modules', 'Web Accessibility (A11y)', 'Brand Styling', 'SEO Optimizations']
+      skills: ['React.js', 'JavaScript', 'React Hooks', 'Tailwind CSS', 'REST API']
     }
   ];
 

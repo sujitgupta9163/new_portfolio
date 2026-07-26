@@ -27,12 +27,16 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
       role="button"
       aria-label={`View details of ${project.title}`}
     >
-      {/* Project Mock Visual Screen (using high-end CSS gradients) */}
+      {/* Project Visual Screen */}
       <div 
         className={styles.cardVisual} 
-        style={{ background: project.image }}
+        style={(!project.image.startsWith('http') && !project.image.startsWith('/') && !project.image.startsWith('.')) ? { background: project.image } : undefined}
       >
-        <span className={styles.watermark}>{watermarkLetter}</span>
+        {((project.image.startsWith('http') || project.image.startsWith('/') || project.image.startsWith('.'))) ? (
+          <img src={project.image} alt={project.title} className={styles.projectImage} />
+        ) : (
+          <span className={styles.watermark}>{watermarkLetter}</span>
+        )}
         
         {/* Hover overlay */}
         <div className={styles.hoverOverlay}>
