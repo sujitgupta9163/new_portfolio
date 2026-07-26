@@ -5,6 +5,7 @@ import Projects from './components/Projects/Projects';
 import Experience from './components/Experience/Experience';
 import ContactForm from './components/ContactForm/ContactForm';
 import Footer from './components/Footer/Footer';
+import SupportChat from './components/SupportChat/SupportChat';
 
 export default function App() {
   return (
@@ -32,6 +33,9 @@ export default function App() {
 
       {/* Minimal copyright signature */}
       <Footer />
+
+      {/* Intelligent AI floating assistant */}
+      <SupportChat />
     </>
   );
 }
