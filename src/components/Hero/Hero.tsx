@@ -65,33 +65,6 @@ export default function Hero() {
             </a>
           </div>
         </div>
-
-        <div className={styles.visualContainer}>
-          <div className={styles.signatureFrame}>
-            <div className={styles.signatureGlass}>
-              <div className={styles.avatarWrapper}>
-                <img src={profilePic} alt="Sujit Kumar" className={styles.profileAvatar} />
-              </div>
-              <div className={styles.specifications}>
-                <div className={styles.specRow}>
-                  <span>ROLE:</span>
-                  <strong>FRONTEND DEVELOPER</strong>
-                </div>
-                <div className={styles.specRow}>
-                  <span>ORIGIN:</span>
-                  <strong>EST. 2022</strong>
-                </div>
-                <div className={styles.specRow}>
-                  <span>LOCATION:</span>
-                  <strong>Mohali, Punjab, India</strong>
-                </div>
-              </div>
-            </div>
-            {/* Elegant geometrical details to look extremely premium */}
-            <div className={styles.frameCornerTopLeft}></div>
-            <div className={styles.frameCornerBottomRight}></div>
-          </div>
-        </div>
       </div>
 
       <div className={styles.scrollDownIndicator}>

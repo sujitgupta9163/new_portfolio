@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import styles from './WelcomePortal.module.css';
 
@@ -7,37 +7,88 @@ interface WelcomePortalProps {
 }
 
 export default function WelcomePortal({ onEnter }: WelcomePortalProps) {
-  const [logs, setLogs] = useState<string[]>([]);
-  const [showButton, setShowButton] = useState(false);
-  const [fadeOut, setFadeOut] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const matrixRef = useRef<HTMLCanvasElement>(null);
+  const portalRef = useRef<HTMLDivElement>(null);
 
-  const logSequence = [
-    'SYSTEM READY: SUJIT_PORTFOLIO v2.0',
-    'CONNECTING TO THREE.JS WEBGL RENDERER...',
-    'INITIALIZING FRONTEND CORE (REACT & TAILWIND)...',
-    'LOADING HIGH-FIDELITY ASSETS & STYLES...',
-    'COMPILING 3D DATA GEOMETRIES...',
-    'ACCESS STATUS: GRANTED'
-  ];
-
-  // Terminal Log sequence simulation
+  // Auto-redirect timer: 3 seconds, then fade out
   useEffect(() => {
-    let currentLogIndex = 0;
-    const interval = setInterval(() => {
-      if (currentLogIndex < logSequence.length) {
-        setLogs((prev) => [...prev, logSequence[currentLogIndex]]);
-        currentLogIndex++;
-      } else {
-        clearInterval(interval);
-        setShowButton(true);
+    const fadeTimer = setTimeout(() => {
+      if (portalRef.current) {
+        portalRef.current.classList.add(styles.fadeOut);
       }
-    }, 350);
+      
+      const enterTimer = setTimeout(() => {
+        onEnter();
+      }, 600);
 
-    return () => clearInterval(interval);
+      return () => clearTimeout(enterTimer);
+    }, 3000);
+
+    return () => clearTimeout(fadeTimer);
+  }, [onEnter]);
+
+  // 1. Matrix Digital Rain Background (Gold Coder Vibe)
+  useEffect(() => {
+    if (!matrixRef.current) return;
+    const canvas = matrixRef.current;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const chars = '01010101<>/{}[];:+=_*&^%$#@!ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const alphabet = chars.split('');
+    const fontSize = 12;
+    let columns = width / fontSize;
+
+    const rainDrops: number[] = [];
+    for (let x = 0; x < columns; x++) {
+      rainDrops[x] = Math.random() * -100; // Offset start positions
+    }
+
+    let animationId: number;
+    const draw = () => {
+      ctx.fillStyle = 'rgba(5, 5, 5, 0.08)'; // Trail opacity
+      ctx.fillRect(0, 0, width, height);
+
+      // Gold styling for digital rain
+      ctx.fillStyle = 'rgba(212, 175, 55, 0.35)'; // Semi-transparent gold characters
+      ctx.font = fontSize + 'px monospace';
+
+      for (let i = 0; i < rainDrops.length; i++) {
+        const text = alphabet[Math.floor(Math.random() * alphabet.length)];
+        ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+        if (rainDrops[i] * fontSize > height && Math.random() > 0.975) {
+          rainDrops[i] = 0;
+        }
+        rainDrops[i] += 0.8; // Falling speed
+      }
+      animationId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    const handleResize = () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      columns = width / fontSize;
+      rainDrops.length = 0;
+      for (let x = 0; x < columns; x++) {
+        rainDrops[x] = Math.random() * -100;
+      }
+    };
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
-  // Three.js 3D Wireframe Loader Animation
+  // 2. Three.js 3D Wireframe Loader Animation (Centerpiece)
   useEffect(() => {
     if (!canvasRef.current) return;
 
@@ -45,12 +96,10 @@ export default function WelcomePortal({ onEnter }: WelcomePortalProps) {
     const width = canvas.clientWidth;
     const height = canvas.clientHeight;
 
-    // 1. Scene & Camera Setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
     camera.position.z = 8;
 
-    // 2. WebGL Renderer
     const renderer = new THREE.WebGLRenderer({
       canvas: canvas,
       alpha: true,
@@ -59,43 +108,40 @@ export default function WelcomePortal({ onEnter }: WelcomePortalProps) {
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // 3. Geometry - Premium Torus Knot Wireframe
+    // Torus Knot geometry (Futuristic structural code grid representation)
     const geometry = new THREE.TorusKnotGeometry(1.6, 0.45, 120, 16);
     const material = new THREE.MeshBasicMaterial({
-      color: 0xd4af37, // Champagne Gold
+      color: 0xd4af37, // Gold
       wireframe: true,
       transparent: true,
-      opacity: 0.15 // Soft grid aesthetic
+      opacity: 0.35 // Higher visibility for loader
     });
     const torusKnot = new THREE.Mesh(geometry, material);
     scene.add(torusKnot);
 
-    // Inner glowing core sphere
     const coreGeom = new THREE.SphereGeometry(0.8, 16, 16);
     const coreMat = new THREE.MeshBasicMaterial({
       color: 0xd4af37,
       wireframe: true,
       transparent: true,
-      opacity: 0.3
+      opacity: 0.5
     });
     const coreMesh = new THREE.Mesh(coreGeom, coreMat);
     scene.add(coreMesh);
 
-    // 4. Animation loop
     let animationFrameId: number;
     const animate = () => {
-      torusKnot.rotation.y += 0.008;
-      torusKnot.rotation.x += 0.004;
+      torusKnot.rotation.y += 0.015;
+      torusKnot.rotation.x += 0.008;
 
-      coreMesh.rotation.y -= 0.012;
-      coreMesh.rotation.x -= 0.006;
+      coreMesh.rotation.y -= 0.02;
+      coreMesh.rotation.x -= 0.01;
 
       renderer.render(scene, camera);
       animationFrameId = requestAnimationFrame(animate);
     };
     animate();
 
-    // 5. Responsive resize handler
     const handleResize = () => {
       if (!canvas) return;
       const w = canvas.clientWidth;
@@ -106,7 +152,6 @@ export default function WelcomePortal({ onEnter }: WelcomePortalProps) {
     };
     window.addEventListener('resize', handleResize);
 
-    // Clean up
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', handleResize);
@@ -118,54 +163,31 @@ export default function WelcomePortal({ onEnter }: WelcomePortalProps) {
     };
   }, []);
 
-  const handleEnterClick = () => {
-    setFadeOut(true);
-    setTimeout(() => {
-      onEnter();
-    }, 600);
-  };
-
   return (
-    <div className={`${styles.portalOverlay} ${fadeOut ? styles.fadeOut : ''}`}>
-      {/* Grid Overlay */}
+    <div ref={portalRef} className={styles.portalOverlay}>
+      {/* Background Matrix rain canvas */}
+      <canvas ref={matrixRef} className={styles.matrixCanvas} />
       <div className={styles.visualGrid}></div>
       <div className={styles.goldGlow}></div>
 
       <div className={styles.portalContent}>
-        {/* Three.js interactive loading screen */}
+        {/* Three.js rotating loading grid */}
         <div className={styles.canvasContainer}>
           <canvas ref={canvasRef} className={styles.webglCanvas} />
         </div>
 
-        {/* Loading Terminal Output */}
-        <div className={styles.terminalLogs}>
-          {logs.map((log, index) => (
-            <div 
-              key={index} 
-              className={`${styles.logLine} ${index === logSequence.length - 1 ? styles.goldText : ''}`}
-            >
-              <span className={styles.promptSign}>&gt;</span> {log}
-            </div>
-          ))}
-          {!showButton && <div className={styles.cursor}></div>}
-        </div>
-
         {/* Brand/Credentials */}
-        <div className={`${styles.brandContainer} ${showButton ? styles.brandVisible : ''}`}>
-          <span className={styles.subtitle}>EXPERIENCED FRONTEND ENGINEER</span>
+        <div className={styles.brandContainer}>
+          <span className={styles.subtitle}>FRONTEND ARCHITECT WORKSPACE</span>
           <h1 className={styles.title}>SUJIT KUMAR GUPTA</h1>
-          <p className={styles.tagline}>React.js • React Native • Full-Stack Developer</p>
+          <p className={styles.tagline}>React.js & React Native Specialist</p>
         </div>
 
-        {/* Golden Enter Button */}
-        <button 
-          onClick={handleEnterClick} 
-          className={`${styles.enterBtn} ${showButton ? styles.btnVisible : ''}`}
-          disabled={!showButton}
-        >
-          ENTER WORKSPACE
-          <span className={styles.btnGlow}></span>
-        </button>
+        {/* Luxury Gold Progress Loader Bar */}
+        <div className={styles.loaderBarContainer}>
+          <div className={styles.loaderBarFill}></div>
+        </div>
+        <span className={styles.loadingText}>COMPILING CORE MODULES...</span>
       </div>
     </div>
   );

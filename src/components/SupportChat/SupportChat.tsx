@@ -56,6 +56,10 @@ export default function SupportChat() {
         body: JSON.stringify({ message: queryToSend })
       });
 
+      if (!response.ok) {
+        throw new Error('API not available');
+      }
+
       const data = await response.json();
 
       const botReply: Message = {
@@ -67,16 +71,16 @@ export default function SupportChat() {
 
       setMessages((prev) => [...prev, botReply]);
     } catch (error) {
-      console.error('Chat API Error:', error);
+      console.warn('Chat API Error, calling local fallback:', error);
 
-      const errorMessage: Message = {
+      const botReply: Message = {
         id: Date.now() + 1,
         sender: 'bot',
-        text: 'Sorry, I am having trouble connecting right now. Please try again or email Sujit at valerius@example.com.',
+        text: getMockChatResponse(queryToSend),
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
 
-      setMessages((prev) => [...prev, errorMessage]);
+      setMessages((prev) => [...prev, botReply]);
     } finally {
       setIsTyping(false);
     }
@@ -328,4 +332,50 @@ export default function SupportChat() {
       )}
     </div>
   );
+}
+
+function getMockChatResponse(userText: string): string {
+  const text = userText.toLowerCase();
+
+  const isAboutSujit = 
+    text.includes("portfolio") || 
+    text.includes("sujit") || 
+    text.includes("skill") || 
+    text.includes("experience") || 
+    text.includes("project") || 
+    text.includes("contact") || 
+    text.includes("email") || 
+    text.includes("about") || 
+    text.includes("resume") ||
+    text.includes("hire") ||
+    text.includes("job") ||
+    text.includes("work") ||
+    text.includes("react") ||
+    text.includes("typescript") ||
+    text.includes("node") ||
+    text.includes("hello") || 
+    text.includes("hi") || 
+    text.includes("hey");
+
+  if (!isAboutSujit) {
+    return "I apologize, but I am only programmed to assist with questions related to Sujit Kumar's portfolio, skills, and professional background.";
+  }
+
+  if (text.includes("project") || text.includes("work")) {
+    return "Sujit has built outstanding projects like VerifyOne (OTP Authentication System), BrainStorm/Sentr (Counselling Management System), and Green World Academy Portal. Ask me details about any of them!";
+  }
+  if (text.includes("skill") || text.includes("react") || text.includes("typescript") || text.includes("node")) {
+    return "Sujit specializes in React.js, React Native, Redux Toolkit, Context API, Tailwind CSS, HTML5/CSS3, Node.js, Express, MongoDB, and Git/GitHub.";
+  }
+  if (text.includes("experience")) {
+    return "Sujit has 1+ years of experience as a Frontend Developer at Bhanguz Technology, Mohali and previously as a developer intern at Tech Whizer IT Software Services.";
+  }
+  if (text.includes("contact") || text.includes("email") || text.includes("hire")) {
+    return "You can reach Sujit via email at sujitgupta9163@gmail.com or call him at +91 9163165672.";
+  }
+  if (text.includes("hello") || text.includes("hi") || text.includes("hey")) {
+    return "Hello! I am Sujit's virtual assistant. How can I help you today? You can ask about his skills, projects, experience, or contact information.";
+  }
+
+  return "Sujit Kumar Gupta is a Frontend Developer specializing in React.js and React Native. Feel free to ask about his skills, experience, or projects!";
 }
